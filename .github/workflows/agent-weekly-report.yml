@@ -1,0 +1,141 @@
+name: Weekly Agent Report
+
+on:
+  schedule:
+    # 毎週月曜日の日本時間朝9時に実行
+    - cron: '0 0 * * MON'  # UTC 0:00 Monday = JST 9:00 Monday
+  workflow_dispatch:  # 手動実行も可能
+
+jobs:
+  weekly-report:
+    name: Generate Weekly Report
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm install -g ts-node typescript
+          npm install js-yaml
+      
+      - name: Generate weekly report
+        run: |
+          echo "📅 週次レポート生成開始"
+          ts-node agents/research/scripts/generate_report.ts
+      
+      - name: Create pull request
+        id: create_pr
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: '📊 Weekly Agent Report - Week of ${{ env.WEEK_START }}'
+          title: '📊 週次AIツール更新レポート - ${{ env.WEEK_START }}'
+          body: |
+            ## 週次レポート
+            
+            このPRには今週のAIツール更新情報が含まれています。
+            
+            ### 含まれる内容
+            - 各ツールの更新サマリー
+            - 重要な変更点のハイライト
+            - 推奨アクション
+            
+            ### レビューポイント
+            - [ ] 更新内容の確認
+            - [ ] 日本語の表現チェック
+            - [ ] リンクの有効性確認
+            
+            ---
+            *このPRは自動生成されました*
+          branch: weekly-report-${{ env.WEEK_START }}
+          delete-branch: true
+          labels: |
+            documentation
+            auto-generated
+            weekly-report
+      
+      - name: Enable auto-merge
+        if: steps.create_pr.outputs.pull-request-number
+        run: |
+          gh pr merge --auto --squash "${{ steps.create_pr.outputs.pull-request-number }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Summary
+        run: |
+          echo "# 週次レポート生成完了" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- PR番号: #${{ steps.create_pr.outputs.pull-request-number }}" >> $GITHUB_STEP_SUMMARY
+          echo "- ブランチ: weekly-report-${{ env.WEEK_START }}" >> $GITHUB_STEP_SUMMARY
+          
+          if [ -f "docs/updates/weekly-report-$(date +%Y-%m-%d).md" ]; then
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "## レポートプレビュー" >> $GITHUB_STEP_SUMMARY
+            head -n 30 "docs/updates/weekly-report-$(date +%Y-%m-%d).md" >> $GITHUB_STEP_SUMMARY
+          fi
+    
+    env:
+      WEEK_START: ${{ steps.get_week.outputs.week_start }}
+
+  content-generation:
+    name: Generate Content Suggestions
+    runs-on: ubuntu-latest
+    needs: weekly-report
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Analyze trends
+        run: |
+          echo "📈 トレンド分析中..."
+          # トレンド分析スクリプトの実行（実装予定）
+      
+      - name: Generate content ideas
+        run: |
+          echo "💡 コンテンツアイデア生成"
+          
+          cat << EOF > content-ideas.md
+          # コンテンツ提案 - $(date +%Y-%m-%d)
+          
+          ## 今週のトレンドに基づく記事案
+          
+          1. **初心者向けガイド**
+             - タイトル案: 「今週リリースされた新機能を使ってみよう」
+             - 対象: 非エンジニア
+             - 推定読了時間: 5分
+          
+          2. **比較記事**
+             - タイトル案: 「価格改定後のツール比較」
+             - 対象: コスト重視のユーザー
+             - 推定読了時間: 10分
+          
+          3. **技術解説**
+             - タイトル案: 「新APIの活用方法」
+             - 対象: 開発者
+             - 推定読了時間: 15分
+          EOF
+      
+      - name: Create content issue
+        uses: peter-evans/create-issue-from-file@v4
+        with:
+          title: '📝 週次コンテンツ提案 - ${{ env.CURRENT_WEEK }}'
+          content-filepath: ./content-ideas.md
+          labels: |
+            content
+            suggestion
+            weekly
+    
+    env:
+      CURRENT_WEEK: 'Week of ${{ steps.get_week.outputs.week_start }}'

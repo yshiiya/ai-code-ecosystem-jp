@@ -1,0 +1,216 @@
+# 情報収集源設定
+# 各エージェントが監視・収集する情報源のリスト
+
+tools:
+  claude-code:
+    official:
+      website: https://claude.ai/code
+      blog: https://www.anthropic.com/blog
+      github: https://github.com/anthropics
+      docs: https://docs.anthropic.com
+    monitoring:
+      rss: https://www.anthropic.com/blog/rss
+      github_releases: anthropics/claude-code
+      twitter: "@AnthropicAI"
+    update_frequency: daily
+
+  github-copilot:
+    official:
+      website: https://github.com/features/copilot
+      blog: https://github.blog/tag/github-copilot/
+      changelog: https://github.com/orgs/community/discussions/categories/copilot
+      docs: https://docs.github.com/copilot
+    monitoring:
+      rss: https://github.blog/tag/github-copilot/feed/
+      github_releases: github/copilot
+      twitter: "@GitHubCopilot"
+    update_frequency: daily
+
+  cursor:
+    official:
+      website: https://cursor.com
+      changelog: https://cursor.com/changelog
+      docs: https://docs.cursor.com
+      discord: https://discord.gg/cursor
+    monitoring:
+      changelog_api: https://cursor.com/api/changelog
+      twitter: "@cursor_ai"
+    update_frequency: weekly
+
+  windsurf:
+    official:
+      website: https://windsurf.com
+      blog: https://windsurf.com/blog
+      docs: https://docs.windsurf.com
+      discord: https://discord.gg/windsurf
+    monitoring:
+      rss: https://windsurf.com/blog/feed
+      twitter: "@WindsurfAI"
+    update_frequency: weekly
+
+  cline:
+    official:
+      github: https://github.com/cline/cline
+      releases: https://github.com/cline/cline/releases
+      issues: https://github.com/cline/cline/issues
+      discord: https://discord.gg/cline
+    monitoring:
+      github_releases: cline/cline
+      github_stars: true
+      github_issues: true
+    update_frequency: weekly
+
+  aider:
+    official:
+      website: https://aider.chat
+      github: https://github.com/paul-gauthier/aider
+      docs: https://aider.chat/docs
+      discord: https://discord.gg/aider
+    monitoring:
+      github_releases: paul-gauthier/aider
+      website_changes: true
+    update_frequency: weekly
+
+  continue-dev:
+    official:
+      website: https://continue.dev
+      github: https://github.com/continuedev/continue
+      docs: https://docs.continue.dev
+    monitoring:
+      github_releases: continuedev/continue
+      npm_package: continue
+    update_frequency: weekly
+
+  codeium:
+    official:
+      website: https://codeium.com
+      blog: https://codeium.com/blog
+      docs: https://docs.codeium.com
+    monitoring:
+      blog_rss: https://codeium.com/blog/feed
+      twitter: "@codeiumdev"
+    update_frequency: weekly
+
+  amazon-q:
+    official:
+      website: https://aws.amazon.com/q/developer/
+      blog: https://aws.amazon.com/blogs/devops/
+      docs: https://docs.aws.amazon.com/q/
+    monitoring:
+      aws_news: true
+      twitter: "@awscloud"
+    update_frequency: monthly
+
+# コミュニティ情報源
+community:
+  japanese:
+    qiita:
+      tags: ["AIコーディング", "ClaudeCode", "GitHubCopilot", "Cursor"]
+      api: https://qiita.com/api/v2/
+      check_interval: daily
+    
+    zenn:
+      topics: ["ai", "copilot", "claude", "cursor"]
+      scraping: true
+      check_interval: daily
+    
+    note:
+      hashtags: ["#AIコーディング", "#プログラミングAI"]
+      check_interval: weekly
+
+  international:
+    reddit:
+      subreddits:
+        - r/programming
+        - r/artificial
+        - r/MachineLearning
+        - r/LocalLLaMA
+      check_interval: daily
+    
+    hackernews:
+      keywords: ["AI coding", "Claude Code", "Copilot", "Cursor"]
+      min_score: 50
+      check_interval: hourly
+    
+    producthunt:
+      categories: ["Developer Tools", "Artificial Intelligence"]
+      check_interval: daily
+
+  social:
+    twitter:
+      hashtags:
+        japanese: ["#AIコーディング", "#プログラミングAI", "#ClaudeCode"]
+        english: ["#AIcoding", "#GitHubCopilot", "#CursorAI"]
+      accounts:
+        - "@AnthropicAI"
+        - "@GitHubCopilot"
+        - "@cursor_ai"
+        - "@codeiumdev"
+      check_interval: hourly
+    
+    youtube:
+      channels:
+        - "Fireship"
+        - "ThePrimeagen"
+        - "TechLead"
+      keywords: ["AI coding", "Copilot review", "Cursor tutorial"]
+      check_interval: daily
+
+# API設定
+apis:
+  github:
+    base_url: https://api.github.com
+    rate_limit: 5000
+    auth_required: true
+    token_env: GITHUB_TOKEN
+  
+  twitter:
+    base_url: https://api.twitter.com/2
+    rate_limit: 300
+    auth_required: true
+    token_env: TWITTER_BEARER_TOKEN
+  
+  qiita:
+    base_url: https://qiita.com/api/v2
+    rate_limit: 1000
+    auth_required: false
+  
+  custom_scraping:
+    user_agent: "AI-Code-Ecosystem-Bot/1.0"
+    timeout: 30
+    retry: 3
+    respect_robots_txt: true
+
+# 更新検出ルール
+detection_rules:
+  version_change:
+    patterns:
+      - "v[0-9]+\\.[0-9]+\\.[0-9]+"
+      - "Version [0-9]+\\.[0-9]+"
+      - "Release [0-9]+\\.[0-9]+"
+    importance: high
+  
+  price_change:
+    patterns:
+      - "\\$[0-9]+/month"
+      - "月額[0-9,]+円"
+      - "pricing"
+    importance: critical
+  
+  feature_update:
+    keywords:
+      - "new feature"
+      - "introducing"
+      - "now available"
+      - "新機能"
+      - "リリース"
+    importance: medium
+  
+  deprecation:
+    keywords:
+      - "deprecated"
+      - "end of life"
+      - "sunset"
+      - "廃止"
+      - "終了"
+    importance: critical
