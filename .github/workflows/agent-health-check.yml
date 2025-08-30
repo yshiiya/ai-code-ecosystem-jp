@@ -99,7 +99,7 @@ jobs:
           cat health-report.json
       
       - name: Upload health report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: health-report-${{ github.run_number }}
           path: health-report.json
