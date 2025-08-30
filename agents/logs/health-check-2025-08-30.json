@@ -1,0 +1,204 @@
+[
+  {
+    "timestamp": "2025-08-30T01:10:40.162Z",
+    "results": [
+      {
+        "agent": "Research Agent",
+        "status": "warning",
+        "checks": [
+          {
+            "name": "スクリプトファイル",
+            "passed": true,
+            "message": "✅ check_updates.ts存在"
+          },
+          {
+            "name": "設定ファイル",
+            "passed": true,
+            "message": "✅ 9個のツール設定"
+          },
+          {
+            "name": "レポートディレクトリ",
+            "passed": true,
+            "message": "✅ reportsディレクトリ存在"
+          },
+          {
+            "name": "最新レポート",
+            "passed": false,
+            "message": "⚠️ レポートファイルなし"
+          }
+        ],
+        "timestamp": "2025-08-30T01:10:40.160Z"
+      },
+      {
+        "agent": "Data Updater Agent",
+        "status": "warning",
+        "checks": [
+          {
+            "name": "スクリプトファイル",
+            "passed": true,
+            "message": "✅ update_data.ts存在"
+          },
+          {
+            "name": "データファイル",
+            "passed": true,
+            "message": "✅ data.ts存在"
+          },
+          {
+            "name": "バックアップディレクトリ",
+            "passed": false,
+            "message": "⚠️ backupsディレクトリなし"
+          },
+          {
+            "name": "更新ログ",
+            "passed": false,
+            "message": "⚠️ 更新ログなし"
+          }
+        ],
+        "timestamp": "2025-08-30T01:10:40.161Z"
+      },
+      {
+        "agent": "Content Creator Agent",
+        "status": "unknown",
+        "checks": [
+          {
+            "name": "実装状態",
+            "passed": false,
+            "message": "📅 実装予定"
+          }
+        ],
+        "timestamp": "2025-08-30T01:10:40.161Z"
+      },
+      {
+        "agent": "Translation Agent",
+        "status": "unknown",
+        "checks": [
+          {
+            "name": "実装状態",
+            "passed": false,
+            "message": "📅 実装予定"
+          }
+        ],
+        "timestamp": "2025-08-30T01:10:40.162Z"
+      },
+      {
+        "agent": "Community Insights Agent",
+        "status": "unknown",
+        "checks": [
+          {
+            "name": "実装状態",
+            "passed": false,
+            "message": "📅 実装予定"
+          }
+        ],
+        "timestamp": "2025-08-30T01:10:40.162Z"
+      }
+    ],
+    "summary": {
+      "healthy": 0,
+      "warning": 2,
+      "critical": 0,
+      "unknown": 3
+    }
+  },
+  {
+    "timestamp": "2025-08-30T01:43:19.084Z",
+    "results": [
+      {
+        "agent": "Research Agent",
+        "status": "healthy",
+        "checks": [
+          {
+            "name": "スクリプトファイル",
+            "passed": true,
+            "message": "✅ check_updates.ts存在"
+          },
+          {
+            "name": "設定ファイル",
+            "passed": true,
+            "message": "✅ 9個のツール設定"
+          },
+          {
+            "name": "レポートディレクトリ",
+            "passed": true,
+            "message": "✅ reportsディレクトリ存在"
+          },
+          {
+            "name": "最新レポート",
+            "passed": true,
+            "message": "✅ 0.0時間前に更新"
+          }
+        ],
+        "timestamp": "2025-08-30T01:43:19.081Z"
+      },
+      {
+        "agent": "Data Updater Agent",
+        "status": "warning",
+        "checks": [
+          {
+            "name": "スクリプトファイル",
+            "passed": true,
+            "message": "✅ update_data.ts存在"
+          },
+          {
+            "name": "データファイル",
+            "passed": true,
+            "message": "✅ data.ts存在"
+          },
+          {
+            "name": "バックアップディレクトリ",
+            "passed": false,
+            "message": "⚠️ backupsディレクトリなし"
+          },
+          {
+            "name": "更新ログ",
+            "passed": false,
+            "message": "⚠️ 更新ログなし"
+          }
+        ],
+        "timestamp": "2025-08-30T01:43:19.083Z"
+      },
+      {
+        "agent": "Content Creator Agent",
+        "status": "unknown",
+        "checks": [
+          {
+            "name": "実装状態",
+            "passed": false,
+            "message": "📅 実装予定"
+          }
+        ],
+        "timestamp": "2025-08-30T01:43:19.083Z"
+      },
+      {
+        "agent": "Translation Agent",
+        "status": "unknown",
+        "checks": [
+          {
+            "name": "実装状態",
+            "passed": false,
+            "message": "📅 実装予定"
+          }
+        ],
+        "timestamp": "2025-08-30T01:43:19.083Z"
+      },
+      {
+        "agent": "Community Insights Agent",
+        "status": "unknown",
+        "checks": [
+          {
+            "name": "実装状態",
+            "passed": false,
+            "message": "📅 実装予定"
+          }
+        ],
+        "timestamp": "2025-08-30T01:43:19.083Z"
+      }
+    ],
+    "summary": {
+      "healthy": 1,
+      "warning": 1,
+      "critical": 0,
+      "unknown": 3
+    }
+  }
+]

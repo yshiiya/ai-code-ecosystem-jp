@@ -4,28 +4,28 @@
 
 最終更新: 2025年8月29日
 
-| ツール名 | カテゴリ | 料金 | 最終更新 | ドキュメント | ステータス |
-|---------|----------|------|----------|-------------|-----------|
-| [Claude Code](./claude-code.md) | CLI/エージェント | $20/月 | 2025/08/29 | ✅ | 🟢 最新 |
-| [GitHub Copilot](./github-copilot.md) | IDE拡張 | $10/月〜 | 2025/08/29 | ✅ | 🟢 最新 |
-| [Cursor](./cursor.md) | 独立IDE | $20/月 | 2025/08/29 | ✅ | 🟢 最新 |
-| [Windsurf](./windsurf.md) | 独立IDE | $10/月 | 2025/08/29 | ✅ | 🟢 最新 |
-| [Cline](./cline.md) | VS Code拡張 | 無料 | 2025/08/29 | ✅ | 🟢 最新 |
-| [Aider](./aider.md) | CLI | 無料 | 2025/08/29 | ✅ | 🟢 最新 |
-| OpenAI Codex | API/Web | ChatGPT料金 | - | ⏳ | 🟡 作成予定 |
-| Gemini CLI | CLI | 無料〜 | - | ⏳ | 🟡 作成予定 |
-| Continue.dev | IDE拡張 | 無料 | - | ⏳ | 🟡 作成予定 |
-| Codeium | IDE拡張 | 無料〜 | - | ⏳ | 🟡 作成予定 |
-| Amazon Q | IDE拡張 | $19/月 | - | ⏳ | 🟡 作成予定 |
-| Tabnine | IDE拡張 | $12/月〜 | - | ⏳ | 🟡 作成予定 |
-| Pieces | デスクトップ | 無料〜 | - | ⏳ | 🟡 作成予定 |
+| ツール名                                  | カテゴリ       | 料金        | 最終更新       | ドキュメント | ステータス   |
+| ------------------------------------- | ---------- | --------- | ---------- | ------ | ------- |
+| [Claude Code](./claude-code.md)       | CLI/エージェント | $20/月     | 2025/08/29 | ✅      | 🟢 最新   |
+| [GitHub Copilot](./github-copilot.md) | IDE拡張      | $10/月〜    | 2025/08/29 | ✅      | 🟢 最新   |
+| [Cursor](./cursor.md)                 | 独立IDE      | $20/月     | 2025/08/29 | ✅      | 🟢 最新   |
+| [Windsurf](./windsurf.md)             | 独立IDE      | $10/月     | 2025/08/29 | ✅      | 🟢 最新   |
+| [Cline](./cline.md)                   | VS Code拡張  | 無料        | 2025/08/29 | ✅      | 🟢 最新   |
+| [Aider](./aider.md)                   | CLI        | 無料        | 2025/08/29 | ✅      | 🟢 最新   |
+| [Continue.dev](./continue-dev.md)     | IDE拡張      | 無料        | 2025/08/29 | ✅      | 🟢 最新   |
+| [Codeium](./codeium.md)               | IDE拡張      | 無料〜       | 2025/08/29 | ✅      | 🟢 最新   |
+| [Amazon Q](./amazon-q.md)             | IDE拡張      | $19/月     | 2025/08/29 | ✅      | 🟢 最新   |
+| [OpenAI Codex](./openai-codex.md)     | API/Web    | ChatGPT料金 | 2025/08/30 | ✅      | 🟢 最新   |
+| [Gemini CLI](./gemini-cli.md)         | CLI        | 無料〜       | 2025/08/30 | ✅      | 🟢 最新   |
+| [Tabnine](./tabnine.md)               | IDE拡張      | $12/月〜    | 2025/08/30 | ✅      | 🟢 最新   |
+| Pieces                                | デスクトップ     | 無料〜       | -          | ⏳      | 🟡 作成予定 |
 
 ## 🏷️ カテゴリ別分類
 
 ### CLI/ターミナルツール
 - **Claude Code** - Anthropicの高性能エージェント
 - **Aider** - Git統合型ペアプログラミング
-- **Gemini CLI** - Google製オープンソース（予定）
+- **Gemini CLI** - Google製マルチモーダルCLI
 
 ### 独立IDE
 - **Cursor** - VS Codeベースの AI IDE
@@ -34,36 +34,39 @@
 ### IDE拡張機能
 - **GitHub Copilot** - 最も普及したAIアシスタント
 - **Cline** - オープンソース自律エージェント
-- **Continue.dev** - マルチモデル対応（予定）
-- **Codeium** - 高速補完特化（予定）
+- **Continue.dev** - マルチモデル対応オープンソース
+- **Codeium** - 高速補完特化ツール
+- **Amazon Q** - AWS統合エンタープライズ向け
+- **Tabnine** - プライベートAI学習対応
 
 ### Web/API
-- **OpenAI Codex** - ChatGPT統合（予定）
+- **OpenAI Codex** - ChatGPT統合コード生成
 
 ## 💰 価格帯別
 
 ### 無料
-- Cline（オープンソース）
-- Aider（オープンソース）
-- Codeium（無料プランあり）
-- Continue.dev（オープンソース）
+- **Cline**（オープンソース）
+- **Aider**（オープンソース）
+- **Continue.dev**（オープンソース）
+- **Codeium**（無料プランあり）
+- **Gemini CLI**（無料プランあり）
 
 ### $10-15/月
-- GitHub Copilot（$10〜）
-- Windsurf（$10〜）
-- Tabnine（$12〜）
+- **GitHub Copilot**（$10〜）
+- **Windsurf**（$10〜）
+- **Tabnine**（$12〜）
 
 ### $20/月以上
-- Claude Code（$20）
-- Cursor（$20）
-- Amazon Q（$19）
+- **Claude Code**（$20）
+- **Cursor**（$20）
+- **Amazon Q**（$19）
 
 ## 🎯 用途別推奨
 
 ### 初心者向け
 1. **GitHub Copilot** - 最も簡単、広いサポート
 2. **Cursor** - 直感的なUI
-3. **Cline** - 無料で高機能
+3. **Codeium** - 無料で高速補完
 
 ### プロ開発者向け
 1. **Claude Code** - 最高精度
@@ -76,9 +79,9 @@
 3. **Amazon Q Developer**
 
 ### オープンソース愛好家
-1. **Cline**
-2. **Aider**
-3. **Continue.dev**
+1. **Cline** - 自律エージェント機能
+2. **Aider** - Git統合ペアプログラミング
+3. **Continue.dev** - マルチモデル対応
 
 ## 📈 トレンド分析
 

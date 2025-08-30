@@ -7,6 +7,7 @@ interface AgentStatus {
   name: string
   nameJp: string
   status: 'running' | 'success' | 'failed' | 'pending' | 'unknown'
+  executionMode?: 'github_actions' | 'claude_code'
   lastRun?: string
   nextRun?: string
   lastError?: string
@@ -23,36 +24,49 @@ interface WorkflowRun {
   html_url: string
 }
 
+interface SyncStatus {
+  component: string
+  local: string
+  remote: string
+  status: 'synced' | 'out_of_sync' | 'checking'
+  message?: string
+}
+
 export default function AgentMonitoringDashboard() {
   const [agents, setAgents] = useState<AgentStatus[]>([
     {
       name: 'Research Agent',
       nameJp: 'リサーチエージェント',
       status: 'unknown',
+      executionMode: 'github_actions',
       nextRun: '6時間ごと'
     },
     {
       name: 'Data Updater Agent',
       nameJp: 'データ更新エージェント',
       status: 'unknown',
+      executionMode: 'github_actions',
       nextRun: '毎日 2:00'
     },
     {
       name: 'Content Creator Agent',
       nameJp: 'コンテンツ作成エージェント',
       status: 'unknown',
+      executionMode: 'claude_code',
       nextRun: 'トリガーベース'
     },
     {
       name: 'Translation Agent',
       nameJp: '翻訳エージェント',
       status: 'pending',
+      executionMode: 'claude_code',
       nextRun: '実装予定'
     },
     {
       name: 'Community Insights Agent',
       nameJp: 'コミュニティ分析エージェント',
       status: 'pending',
+      executionMode: 'github_actions',
       nextRun: '実装予定'
     }
   ])
@@ -61,6 +75,26 @@ export default function AgentMonitoringDashboard() {
   const [isLoading, setIsLoading] = useState(true)
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date())
   const [repoUrl] = useState('https://github.com/yshiiya/ai-code-ecosystem-jp')
+  const [syncStatus, setSyncStatus] = useState<SyncStatus[]>([
+    {
+      component: 'Git Repository',
+      local: 'Checking...',
+      remote: 'Checking...',
+      status: 'checking'
+    },
+    {
+      component: 'Agent Config',
+      local: 'Checking...',
+      remote: 'Checking...',
+      status: 'checking'
+    },
+    {
+      component: 'Data Files',
+      local: 'Checking...',
+      remote: 'Checking...',
+      status: 'checking'
+    }
+  ])
 
   // GitHubワークフロー実行履歴を取得（シミュレーション）
   useEffect(() => {
@@ -109,6 +143,31 @@ export default function AgentMonitoringDashboard() {
       setAgents(updatedAgents)
       setLastUpdated(new Date())
       setIsLoading(false)
+      
+      // 同期ステータスをシミュレート
+      setSyncStatus([
+        {
+          component: 'Git Repository',
+          local: 'Up to date',
+          remote: 'Up to date',
+          status: 'synced',
+          message: 'リポジトリは同期されています'
+        },
+        {
+          component: 'Agent Config',
+          local: 'Updated',
+          remote: 'Will sync on push',
+          status: 'synced',
+          message: 'execution_mode設定済み'
+        },
+        {
+          component: 'Data Files',
+          local: '12 tools',
+          remote: 'Last updated: 1 hour ago',
+          status: 'synced',
+          message: '12個のツールが登録されています'
+        }
+      ])
     }
 
     fetchWorkflowRuns()
@@ -148,6 +207,15 @@ export default function AgentMonitoringDashboard() {
     // })
   }
 
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' })
+      window.location.href = '/admin/login'
+    } catch (error) {
+      console.error('ログアウトに失敗しました:', error)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4">
@@ -184,6 +252,12 @@ export default function AgentMonitoringDashboard() {
             >
               GitHub Actions →
             </a>
+            <button
+              onClick={handleLogout}
+              className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
+            >
+              🔐 ログアウト
+            </button>
           </div>
         </div>
 
@@ -202,6 +276,19 @@ export default function AgentMonitoringDashboard() {
               </div>
               
               <div className="space-y-2 text-sm">
+                {agent.executionMode && (
+                  <div>
+                    <span className="text-gray-600">実行環境:</span>
+                    <span className={`ml-2 px-2 py-1 rounded text-xs font-medium ${
+                      agent.executionMode === 'github_actions' 
+                        ? 'bg-purple-100 text-purple-800' 
+                        : 'bg-cyan-100 text-cyan-800'
+                    }`}>
+                      {agent.executionMode === 'github_actions' ? '🌐 GitHub Actions' : '💻 Claude Code'}
+                    </span>
+                  </div>
+                )}
+                
                 {agent.lastRun && (
                   <div>
                     <span className="text-gray-600">最終実行:</span>
@@ -286,6 +373,43 @@ export default function AgentMonitoringDashboard() {
               </tbody>
             </table>
           </div>
+        </div>
+
+        {/* 同期ステータス */}
+        <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
+          <h2 className="text-2xl font-bold mb-4">🔄 同期ステータス</h2>
+          
+          <div className="space-y-3">
+            {syncStatus.map((sync) => (
+              <div key={sync.component} className="flex items-center justify-between p-3 bg-gray-50 rounded">
+                <div className="flex-1">
+                  <div className="font-medium">{sync.component}</div>
+                  <div className="text-sm text-gray-600 mt-1">
+                    ローカル: {sync.local} | リモート: {sync.remote}
+                  </div>
+                  {sync.message && (
+                    <div className="text-xs text-gray-500 mt-1">{sync.message}</div>
+                  )}
+                </div>
+                <div className={`px-3 py-1 rounded-full text-sm font-medium ${
+                  sync.status === 'synced' ? 'bg-green-100 text-green-800' :
+                  sync.status === 'out_of_sync' ? 'bg-red-100 text-red-800' :
+                  'bg-gray-100 text-gray-800 animate-pulse'
+                }`}>
+                  {sync.status === 'synced' ? '✅ 同期済み' :
+                   sync.status === 'out_of_sync' ? '⚠️ 要同期' :
+                   '🔄 確認中'}
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          <button
+            onClick={() => alert('同期チェックを実行します。\n\nClaude Codeセッション内で以下を実行してください:\nts-node agents/sync/check_sync.ts')}
+            className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+          >
+            同期チェック実行
+          </button>
         </div>
 
         {/* システムヘルス */}

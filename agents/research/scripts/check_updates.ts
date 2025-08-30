@@ -301,4 +301,5 @@ if (require.main === module) {
   main()
 }
 
-export { ResearchAgent, UpdateInfo }
+export type { UpdateInfo }
+export { ResearchAgent }

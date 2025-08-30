@@ -8,6 +8,7 @@ agents:
     name_jp: "AIツール調査エージェント"
     description: "最新のAIコーディングツール情報を収集・分析"
     enabled: true
+    execution_mode: "github_actions"  # GitHub Actionsで自律実行
     schedule: 
       daily: "0 6,12,18 * * *"  # 6時、12時、18時に実行
       weekly_report: "0 9 * * MON"  # 月曜9時に週次レポート
@@ -28,6 +29,7 @@ agents:
     name_jp: "コンテンツ作成エージェント"
     description: "非エンジニア向けの分かりやすいコンテンツを作成"
     enabled: true
+    execution_mode: "claude_code"  # Claude Codeで対話的に実行
     triggers:
       - new_tool_detected
       - major_update_found
@@ -50,6 +52,7 @@ agents:
     name_jp: "データ更新エージェント"
     description: "サイトのデータを自動的に最新状態に維持"
     enabled: true
+    execution_mode: "github_actions"  # GitHub Actionsで自律実行
     schedule:
       daily: "0 2 * * *"  # 毎日深夜2時
       validation: "0 */12 * * *"  # 12時間ごとにリンクチェック
@@ -70,6 +73,7 @@ agents:
     name_jp: "翻訳・ローカライゼーションエージェント"
     description: "英語コンテンツを高品質な日本語に翻訳"
     enabled: true
+    execution_mode: "claude_code"  # Claude Codeで対話的に実行
     sources:
       - official_docs
       - release_notes
@@ -88,6 +92,7 @@ agents:
     name_jp: "コミュニティ分析エージェント"
     description: "ユーザーニーズとトレンドを分析"
     enabled: true
+    execution_mode: "github_actions"  # GitHub Actionsで自律実行
     schedule:
       daily_scan: "0 10 * * *"
       weekly_analysis: "0 10 * * FRI"

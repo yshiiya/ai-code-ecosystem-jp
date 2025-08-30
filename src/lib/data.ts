@@ -72,6 +72,30 @@ export const tools = [
     pricing: "$19/月",
     tags: ["AWS統合", "セキュリティ", "エンタープライズ"],
   },
+  {
+    id: "openai-codex",
+    name: "OpenAI Codex",
+    category: "API/Web",
+    description: "OpenAIの高性能コード生成AI。ChatGPT内のCode Interpreterとして利用可能",
+    pricing: "ChatGPT料金",
+    tags: ["コード生成", "実行環境", "API"],
+  },
+  {
+    id: "gemini-cli",
+    name: "Gemini CLI",
+    category: "CLI",
+    description: "GoogleのGemini AIをコマンドラインから利用。マルチモーダル対応で画像解析も可能",
+    pricing: "無料〜",
+    tags: ["CLI", "画像処理", "マルチモーダル"],
+  },
+  {
+    id: "tabnine",
+    name: "Tabnine",
+    category: "IDE拡張",
+    description: "プライベートAI学習対応のコード補完ツール。エンタープライズ向け機能充実",
+    pricing: "$12/月〜",
+    tags: ["プライベートAI", "エンタープライズ", "補完特化"],
+  },
 ]
 
 // MCPサーバーのデータ
