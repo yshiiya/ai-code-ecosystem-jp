@@ -1,0 +1,136 @@
+name: Agent Health Check
+
+on:
+  schedule:
+    # 30分ごとにヘルスチェック
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'agents/**'
+      - '.github/workflows/**'
+
+jobs:
+  health-check:
+    name: System Health Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm install -g ts-node typescript
+      
+      - name: Check agent configurations
+        id: check_config
+        run: |
+          echo "🔍 設定ファイルチェック"
+          
+          # 必須ファイルの存在確認
+          files=(
+            "agents/config/agents.yaml"
+            "agents/config/sources.yaml"
+            "agents/research/scripts/check_updates.ts"
+            "agents/research/scripts/generate_report.ts"
+            "agents/updater/scripts/update_data.ts"
+          )
+          
+          all_exist=true
+          for file in "${files[@]}"; do
+            if [ -f "$file" ]; then
+              echo "✅ $file: 存在"
+            else
+              echo "❌ $file: 見つかりません"
+              all_exist=false
+            fi
+          done
+          
+          if [ "$all_exist" = true ]; then
+            echo "config_status=success" >> $GITHUB_OUTPUT
+          else
+            echo "config_status=failed" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Test Research Agent
+        id: test_research
+        run: |
+          echo "🧪 Research Agentテスト"
+          ts-node agents/monitoring/health-check.ts research || echo "research_status=failed" >> $GITHUB_OUTPUT
+          echo "research_status=success" >> $GITHUB_OUTPUT
+        continue-on-error: true
+      
+      - name: Test Data Updater Agent
+        id: test_updater
+        run: |
+          echo "🧪 Data Updater Agentテスト"
+          ts-node agents/monitoring/health-check.ts updater || echo "updater_status=failed" >> $GITHUB_OUTPUT
+          echo "updater_status=success" >> $GITHUB_OUTPUT
+        continue-on-error: true
+      
+      - name: Generate health report
+        id: health_report
+        run: |
+          cat << EOF > health-report.json
+          {
+            "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "status": {
+              "config": "${{ steps.check_config.outputs.config_status }}",
+              "research": "${{ steps.test_research.outputs.research_status }}",
+              "updater": "${{ steps.test_updater.outputs.updater_status }}"
+            },
+            "github": {
+              "run_id": "${{ github.run_id }}",
+              "run_number": "${{ github.run_number }}",
+              "sha": "${{ github.sha }}"
+            }
+          }
+          EOF
+          
+          cat health-report.json
+      
+      - name: Upload health report
+        uses: actions/upload-artifact@v3
+        with:
+          name: health-report-${{ github.run_number }}
+          path: health-report.json
+      
+      - name: Update README badge
+        if: always()
+        run: |
+          overall_status="passing"
+          if [[ "${{ steps.check_config.outputs.config_status }}" == "failed" ]] || \
+             [[ "${{ steps.test_research.outputs.research_status }}" == "failed" ]] || \
+             [[ "${{ steps.test_updater.outputs.updater_status }}" == "failed" ]]; then
+            overall_status="failing"
+          fi
+          
+          echo "## Health Check Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Component | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Configuration | ${{ steps.check_config.outputs.config_status }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Research Agent | ${{ steps.test_research.outputs.research_status }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Data Updater | ${{ steps.test_updater.outputs.updater_status }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Overall: **$overall_status**" >> $GITHUB_STEP_SUMMARY
+      
+      - name: Create issue if unhealthy
+        if: failure()
+        uses: peter-evans/create-issue-from-file@v4
+        with:
+          title: '🚨 Agent Health Check Failed - ${{ github.run_number }}'
+          content-filepath: ./health-report.json
+          labels: |
+            bug
+            health-check
+            auto-generated

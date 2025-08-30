@@ -1,6 +1,21 @@
 # AI Code Ecosystem Japan 🚀
 
+[![Health Check](https://github.com/yshiiya/ai-code-ecosystem-jp/actions/workflows/agent-health-check.yml/badge.svg)](https://github.com/yshiiya/ai-code-ecosystem-jp/actions/workflows/agent-health-check.yml)
+[![Daily Updates](https://github.com/yshiiya/ai-code-ecosystem-jp/actions/workflows/agent-daily-update.yml/badge.svg)](https://github.com/yshiiya/ai-code-ecosystem-jp/actions/workflows/agent-daily-update.yml)
+[![Weekly Report](https://github.com/yshiiya/ai-code-ecosystem-jp/actions/workflows/agent-weekly-report.yml/badge.svg)](https://github.com/yshiiya/ai-code-ecosystem-jp/actions/workflows/agent-weekly-report.yml)
+
 AIコーディングツールとその周辺エコシステムの情報を日本語で体系的に整理した総合情報ポータルサイト
+
+## 🔍 エージェント監視
+
+**[📊 監視ダッシュボード](http://localhost:3002/admin/agents)** - リアルタイムでエージェントの稼働状況を確認
+
+### エージェントステータス
+- ✅ **Research Agent**: 6時間ごとに最新情報を収集
+- ✅ **Data Updater**: 毎日深夜2時にデータ更新
+- 🚧 **Content Creator**: テンプレート実装済み
+- 📅 **Translation Agent**: 実装予定
+- 📅 **Community Insights**: 実装予定
 
 ## 📌 プロジェクト概要
 
