@@ -34,6 +34,27 @@ const config: Config = {
 								color: "#0284c7",
 							},
 						},
+						pre: {
+							backgroundColor: "#111827",
+							color: "#f3f4f6",
+						},
+						"pre code": {
+							backgroundColor: "transparent",
+							color: "#f3f4f6",
+						},
+						code: {
+							backgroundColor: "#f3f4f6",
+							color: "#111827",
+							padding: "0.125rem 0.25rem",
+							borderRadius: "0.25rem",
+							fontWeight: "400",
+						},
+						"code::before": {
+							content: '""',
+						},
+						"code::after": {
+							content: '""',
+						},
 					},
 				},
 			},

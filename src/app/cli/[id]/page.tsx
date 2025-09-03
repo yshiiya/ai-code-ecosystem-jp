@@ -98,15 +98,15 @@ export default async function CLIPage({ params }: PageProps) {
 								code: ({ children, className }) => {
 									const isInline = !className;
 									return isInline ? (
-										<code className="bg-gray-100 px-1 py-0.5 rounded text-sm">
+										<code className="bg-gray-100 text-gray-900 px-1 py-0.5 rounded text-sm">
 											{children}
 										</code>
 									) : (
-										<code className={className}>{children}</code>
+										<code className="text-gray-100 bg-transparent">{children}</code>
 									);
 								},
 								pre: ({ children }) => (
-									<pre className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto mb-4">
+									<pre className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto mb-4" style={{ backgroundColor: 'rgb(17 24 39)', color: 'rgb(243 244 246)' }}>
 										{children}
 									</pre>
 								),

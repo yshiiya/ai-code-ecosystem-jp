@@ -15,15 +15,28 @@
 }
 
 @layer components {
+	/* プレースホルダーのコードブロック */
 	.prose pre {
-		@apply bg-gray-900 text-gray-100 overflow-x-auto;
+		@apply bg-gray-900 text-gray-100 overflow-x-auto rounded-lg p-4;
 	}
 
-	.prose code {
-		@apply bg-gray-100 text-gray-900 px-1 py-0.5 rounded;
+	/* インラインコード */
+	.prose :not(pre) > code {
+		@apply bg-gray-100 text-gray-900 px-1 py-0.5 rounded text-sm;
 	}
 
+	/* コードブロック内のcode要素 */
 	.prose pre code {
-		@apply bg-transparent p-0;
+		@apply bg-transparent p-0 text-gray-100;
+	}
+	
+	/* コードブロックのスタイルを強制適用 */
+	pre.bg-gray-900 {
+		background-color: rgb(17 24 39) !important;
+	}
+	
+	pre.bg-gray-900 code {
+		color: rgb(243 244 246) !important;
+		background-color: transparent !important;
 	}
 }
