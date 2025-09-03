@@ -3,7 +3,7 @@ export const tools = [
 	{
 		id: "claude-code",
 		name: "Claude Code",
-		category: "CLI/エージェント",
+		category: "自律エージェント",
 		description:
 			"Anthropicが開発したターミナル内で動作するエージェンティックAIコーディングツール",
 		pricing: "$20/月",
@@ -12,7 +12,7 @@ export const tools = [
 	{
 		id: "openai-codex",
 		name: "OpenAI Codex",
-		category: "API/基盤モデル",
+		category: "基盤技術・API",
 		description: "GitHub Copilotの基盤技術。自然言語をコードに変換するAIシステム",
 		pricing: "API利用（終了）",
 		tags: ["API", "基盤モデル", "レガシー"],
@@ -20,7 +20,7 @@ export const tools = [
 	{
 		id: "github-copilot",
 		name: "GitHub Copilot",
-		category: "IDE拡張",
+		category: "IDE拡張機能",
 		description: "世界で最も広く採用されているAI開発者ツール。マルチモデル対応",
 		pricing: "$10/月〜",
 		tags: ["IDE統合", "マルチモデル", "無料プランあり"],
@@ -28,7 +28,7 @@ export const tools = [
 	{
 		id: "cursor",
 		name: "Cursor",
-		category: "独立IDE",
+		category: "AIネイティブIDE",
 		description: "VS Codeをフォークして作られたAIファーストのコードエディタ",
 		pricing: "$20/月",
 		tags: ["独立IDE", "Tab補完", "Composer"],
@@ -36,7 +36,7 @@ export const tools = [
 	{
 		id: "windsurf",
 		name: "Windsurf",
-		category: "独立IDE",
+		category: "AIネイティブIDE",
 		description: "OpenAIが買収したAIネイティブエディタ。Cascade機能が特徴",
 		pricing: "$10/月",
 		tags: ["独立IDE", "Flows", "OpenAI"],
@@ -44,7 +44,7 @@ export const tools = [
 	{
 		id: "cline",
 		name: "Cline",
-		category: "VS Code拡張",
+		category: "IDE拡張機能",
 		description: "オープンソースの自律型AIコーディングエージェント",
 		pricing: "無料",
 		tags: ["オープンソース", "透明性", "マルチモデル"],
@@ -52,7 +52,7 @@ export const tools = [
 	{
 		id: "aider",
 		name: "Aider",
-		category: "CLI",
+		category: "自律エージェント",
 		description:
 			"ターミナルで動作するAIペアプログラミングツール。Git統合が優秀",
 		pricing: "無料",
@@ -61,7 +61,7 @@ export const tools = [
 	{
 		id: "continue-dev",
 		name: "Continue.dev",
-		category: "IDE拡張",
+		category: "IDE拡張機能",
 		description: "オープンソースのAI開発アシスタント。ローカルLLM対応",
 		pricing: "無料",
 		tags: ["オープンソース", "ローカルLLM", "プライバシー"],
@@ -69,7 +69,7 @@ export const tools = [
 	{
 		id: "codeium",
 		name: "Codeium",
-		category: "IDE拡張",
+		category: "IDE拡張機能",
 		description: "無料で使える高速AI補完ツール。70以上の言語に対応",
 		pricing: "無料〜",
 		tags: ["高速補完", "無料", "多言語対応"],
@@ -77,7 +77,7 @@ export const tools = [
 	{
 		id: "amazon-q",
 		name: "Amazon Q Developer",
-		category: "IDE拡張",
+		category: "IDE拡張機能",
 		description: "AWSが提供するエンタープライズ向けAI開発アシスタント",
 		pricing: "$19/月",
 		tags: ["AWS統合", "セキュリティ", "エンタープライズ"],
@@ -94,7 +94,7 @@ export const tools = [
 	{
 		id: "gemini-cli",
 		name: "Gemini CLI",
-		category: "CLI",
+		category: "コマンドラインツール",
 		description:
 			"GoogleのGemini AIをコマンドラインから利用。マルチモーダル対応で画像解析も可能",
 		pricing: "無料〜",
