@@ -1,84 +1,84 @@
 {
-  "generated_at": "2025-08-30T01:42:57.877Z",
-  "total_updates": 8,
-  "updates": [
-    {
-      "tool": "claude-code",
-      "timestamp": "2025-08-30T01:42:57.877Z",
-      "type": "version",
-      "title": "claude-code: Release v1.2.0",
-      "description": "New features and improvements",
-      "url": "https://github.com/anthropics/claude-code/releases/latest",
-      "importance": "medium"
-    },
-    {
-      "tool": "claude-code",
-      "timestamp": "2025-08-30T01:42:57.877Z",
-      "type": "announcement",
-      "title": "claude-code: 新機能のお知らせ",
-      "description": "最新の機能アップデートについて",
-      "url": "https://www.anthropic.com/blog/rss",
-      "importance": "low"
-    },
-    {
-      "tool": "github-copilot",
-      "timestamp": "2025-08-30T01:42:57.877Z",
-      "type": "version",
-      "title": "github-copilot: Release v1.2.0",
-      "description": "New features and improvements",
-      "url": "https://github.com/github/copilot/releases/latest",
-      "importance": "medium"
-    },
-    {
-      "tool": "github-copilot",
-      "timestamp": "2025-08-30T01:42:57.877Z",
-      "type": "announcement",
-      "title": "github-copilot: 新機能のお知らせ",
-      "description": "最新の機能アップデートについて",
-      "url": "https://github.blog/tag/github-copilot/feed/",
-      "importance": "low"
-    },
-    {
-      "tool": "windsurf",
-      "timestamp": "2025-08-30T01:42:57.877Z",
-      "type": "announcement",
-      "title": "windsurf: 新機能のお知らせ",
-      "description": "最新の機能アップデートについて",
-      "url": "https://windsurf.com/blog/feed",
-      "importance": "low"
-    },
-    {
-      "tool": "cline",
-      "timestamp": "2025-08-30T01:42:57.877Z",
-      "type": "version",
-      "title": "cline: Release v1.2.0",
-      "description": "New features and improvements",
-      "url": "https://github.com/cline/cline/releases/latest",
-      "importance": "medium"
-    },
-    {
-      "tool": "aider",
-      "timestamp": "2025-08-30T01:42:57.877Z",
-      "type": "version",
-      "title": "aider: Release v1.2.0",
-      "description": "New features and improvements",
-      "url": "https://github.com/paul-gauthier/aider/releases/latest",
-      "importance": "medium"
-    },
-    {
-      "tool": "continue-dev",
-      "timestamp": "2025-08-30T01:42:57.877Z",
-      "type": "version",
-      "title": "continue-dev: Release v1.2.0",
-      "description": "New features and improvements",
-      "url": "https://github.com/continuedev/continue/releases/latest",
-      "importance": "medium"
-    }
-  ],
-  "summary": {
-    "critical": 0,
-    "high": 0,
-    "medium": 5,
-    "low": 3
-  }
+	"generated_at": "2025-08-30T01:42:57.877Z",
+	"total_updates": 8,
+	"updates": [
+		{
+			"tool": "claude-code",
+			"timestamp": "2025-08-30T01:42:57.877Z",
+			"type": "version",
+			"title": "claude-code: Release v1.2.0",
+			"description": "New features and improvements",
+			"url": "https://github.com/anthropics/claude-code/releases/latest",
+			"importance": "medium"
+		},
+		{
+			"tool": "claude-code",
+			"timestamp": "2025-08-30T01:42:57.877Z",
+			"type": "announcement",
+			"title": "claude-code: 新機能のお知らせ",
+			"description": "最新の機能アップデートについて",
+			"url": "https://www.anthropic.com/blog/rss",
+			"importance": "low"
+		},
+		{
+			"tool": "github-copilot",
+			"timestamp": "2025-08-30T01:42:57.877Z",
+			"type": "version",
+			"title": "github-copilot: Release v1.2.0",
+			"description": "New features and improvements",
+			"url": "https://github.com/github/copilot/releases/latest",
+			"importance": "medium"
+		},
+		{
+			"tool": "github-copilot",
+			"timestamp": "2025-08-30T01:42:57.877Z",
+			"type": "announcement",
+			"title": "github-copilot: 新機能のお知らせ",
+			"description": "最新の機能アップデートについて",
+			"url": "https://github.blog/tag/github-copilot/feed/",
+			"importance": "low"
+		},
+		{
+			"tool": "windsurf",
+			"timestamp": "2025-08-30T01:42:57.877Z",
+			"type": "announcement",
+			"title": "windsurf: 新機能のお知らせ",
+			"description": "最新の機能アップデートについて",
+			"url": "https://windsurf.com/blog/feed",
+			"importance": "low"
+		},
+		{
+			"tool": "cline",
+			"timestamp": "2025-08-30T01:42:57.877Z",
+			"type": "version",
+			"title": "cline: Release v1.2.0",
+			"description": "New features and improvements",
+			"url": "https://github.com/cline/cline/releases/latest",
+			"importance": "medium"
+		},
+		{
+			"tool": "aider",
+			"timestamp": "2025-08-30T01:42:57.877Z",
+			"type": "version",
+			"title": "aider: Release v1.2.0",
+			"description": "New features and improvements",
+			"url": "https://github.com/paul-gauthier/aider/releases/latest",
+			"importance": "medium"
+		},
+		{
+			"tool": "continue-dev",
+			"timestamp": "2025-08-30T01:42:57.877Z",
+			"type": "version",
+			"title": "continue-dev: Release v1.2.0",
+			"description": "New features and improvements",
+			"url": "https://github.com/continuedev/continue/releases/latest",
+			"importance": "medium"
+		}
+	],
+	"summary": {
+		"critical": 0,
+		"high": 0,
+		"medium": 5,
+		"low": 3
+	}
 }

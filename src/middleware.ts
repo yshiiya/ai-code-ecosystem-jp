@@ -1,33 +1,148 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import type { SecurityContext } from "@/types";
 
+/**
+ * セキュアなミドルウェア
+ * セキュリティ脆弱性を修正し、適切なエラーハンドリングを実装
+ */
 export function middleware(request: NextRequest) {
-  // /admin/* パスを保護
-  if (request.nextUrl.pathname.startsWith('/admin')) {
-    // 簡単な認証チェック（本番では強化が必要）
-    const authHeader = request.headers.get('authorization')
-    const token = request.cookies.get('admin-token')
-    
-    // 開発環境では認証をスキップ
-    if (process.env.NODE_ENV === 'development') {
-      return NextResponse.next()
-    }
-    
-    // 認証トークンチェック
-    if (!token || token.value !== process.env.ADMIN_SECRET) {
-      return new NextResponse(
-        JSON.stringify({ error: 'Unauthorized' }),
-        {
-          status: 401,
-          headers: { 'content-type': 'application/json' }
-        }
-      )
-    }
-  }
-  
-  return NextResponse.next()
+	try {
+		// /admin/* パスを保護
+		if (request.nextUrl.pathname.startsWith("/admin")) {
+			const result = validateAdminAccess(request);
+			if (!result.success) {
+				return result.response;
+			}
+		}
+
+		// セキュリティヘッダーを追加
+		const response = NextResponse.next();
+		addSecurityHeaders(response);
+		return response;
+
+	} catch (error) {
+		console.error("Middleware error:", error);
+		return new NextResponse(
+			JSON.stringify({ 
+				error: "Internal server error",
+				timestamp: new Date().toISOString()
+			}), {
+				status: 500,
+				headers: { "content-type": "application/json" },
+			}
+		);
+	}
+}
+
+/**
+ * 管理者アクセスの検証
+ */
+function validateAdminAccess(request: NextRequest): {
+	success: boolean;
+	response?: NextResponse;
+} {
+	const authHeader = request.headers.get("authorization");
+	const token = request.cookies.get("admin-token");
+	const adminSecret = process.env.ADMIN_SECRET;
+
+	// 環境変数が設定されていない場合はエラー
+	if (!adminSecret) {
+		console.error("ADMIN_SECRET environment variable is not set");
+		return {
+			success: false,
+			response: new NextResponse(
+				JSON.stringify({ 
+					error: "Server configuration error",
+					timestamp: new Date().toISOString()
+				}), {
+					status: 503,
+					headers: { "content-type": "application/json" },
+				}
+			)
+		};
+	}
+
+	// 開発環境では簡素化された認証
+	if (process.env.NODE_ENV === "development") {
+		// 開発環境でも最小限の認証を要求
+		if (!token && !authHeader) {
+			return {
+				success: false,
+				response: createUnauthorizedResponse("Authentication required even in development")
+			};
+		}
+		return { success: true };
+	}
+
+	// 本番環境での厳密な認証
+	if (!token || !isValidToken(token.value, adminSecret)) {
+		return {
+			success: false,
+			response: createUnauthorizedResponse("Invalid or missing authentication token")
+		};
+	}
+
+	return { success: true };
+}
+
+/**
+ * トークンの有効性を検証
+ */
+function isValidToken(tokenValue: string, secret: string): boolean {
+	// 基本的なトークン検証（本番では JWT や署名付きトークンを使用）
+	if (!tokenValue || tokenValue.length < 8) {
+		return false;
+	}
+	
+	// シンプルな比較（本番では暗号化されたトークンを使用）
+	return tokenValue === secret;
+}
+
+/**
+ * 認証失敗レスポンスを作成
+ */
+function createUnauthorizedResponse(message: string): NextResponse {
+	return new NextResponse(
+		JSON.stringify({ 
+			error: "Unauthorized",
+			message,
+			timestamp: new Date().toISOString(),
+			code: "AUTH_FAILED"
+		}), {
+			status: 401,
+			headers: { 
+				"content-type": "application/json",
+				"www-authenticate": "Bearer"
+			},
+		}
+	);
+}
+
+/**
+ * セキュリティヘッダーを追加
+ */
+function addSecurityHeaders(response: NextResponse): void {
+	// XSS保護
+	response.headers.set("X-Content-Type-Options", "nosniff");
+	response.headers.set("X-Frame-Options", "DENY");
+	response.headers.set("X-XSS-Protection", "1; mode=block");
+	
+	// HTTPS強制（本番環境のみ）
+	if (process.env.NODE_ENV === "production") {
+		response.headers.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+	}
+	
+	// Referrer Policy
+	response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+	
+	// CSP（開発用は緩い設定）
+	const cspPolicy = process.env.NODE_ENV === "development"
+		? "default-src 'self' 'unsafe-inline' 'unsafe-eval' localhost:*"
+		: "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'";
+	response.headers.set("Content-Security-Policy", cspPolicy);
 }
 
 export const config = {
-  matcher: '/admin/:path*'
-}
+	matcher: "/admin/:path*",
+};

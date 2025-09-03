@@ -1,0 +1,329 @@
+# AI Code Ecosystem Japan - Community Sources Configuration
+# コミュニティ分析対象のデータソース設定
+
+# Twitter/X 監視設定
+twitter_sources:
+  # AI開発ツール関連キーワード
+  ai_tools:
+    name: "AI Development Tools"
+    platform: "twitter" 
+    query:
+      - "GitHub Copilot"
+      - "ChatGPT code"
+      - "Claude code"
+      - "Cursor IDE"
+      - "CodeWhisperer"
+      - "Tabnine"
+      - "AI programming"
+      - "AI coding assistant"
+      - "AI code review"
+      - "AI pair programming"
+    hashtags:
+      - "#GitHub"
+      - "#OpenAI"
+      - "#AI"
+      - "#MachineLearning"
+      - "#Programming"
+      - "#SoftwareDevelopment"
+      - "#DeveloperTools"
+      - "#CodeGeneration"
+      - "#AITools"
+    exclude_keywords:
+      - "spam"
+      - "advertisement"
+      - "promotion"
+      - "crypto"
+      - "NFT"
+    active: true
+    priority: 9
+
+  # 日本語AI開発コミュニティ
+  japanese_ai_dev:
+    name: "Japanese AI Development Community"
+    platform: "twitter"
+    query:
+      - "AIプログラミング"
+      - "AI開発"
+      - "コード生成"
+      - "ChatGPTプログラミング"
+      - "GitHub Copilot 使い方"
+      - "AI コーディング"
+      - "自動コード生成"
+      - "プログラミング支援AI"
+    hashtags:
+      - "#AIプログラミング"
+      - "#AI開発"
+      - "#プログラミング"
+      - "#開発者"
+      - "#エンジニア"
+      - "#テックトレンド"
+    accounts:
+      - "@github_japan"
+      - "@openai_ja"
+      - "@microsoft_japan"
+      - "@google_devs"
+    active: true
+    priority: 10
+
+# Reddit 監視設定  
+reddit_sources:
+  # Programming subreddits
+  programming_subreddits:
+    name: "Programming Communities"
+    platform: "reddit"
+    query:
+      - "r/programming"
+      - "r/MachineLearning" 
+      - "r/artificial"
+      - "r/coding"
+      - "r/webdev"
+      - "r/javascript"
+      - "r/Python"
+      - "r/reactjs"
+    keywords:
+      - "AI coding"
+      - "GitHub Copilot"
+      - "ChatGPT programming"
+      - "code generation"
+      - "AI assistant"
+      - "automated coding"
+    active: true
+    priority: 8
+
+  # AI-specific subreddits
+  ai_communities:
+    name: "AI Communities"
+    platform: "reddit"
+    query:
+      - "r/ChatGPT"
+      - "r/OpenAI"
+      - "r/ArtificialIntelligence"
+      - "r/MachineLearning"
+      - "r/deeplearning"
+      - "r/LocalLLaMA"
+    keywords:
+      - "coding"
+      - "programming"
+      - "development"
+      - "code review"
+      - "software"
+    active: true
+    priority: 7
+
+# Hacker News 監視設定
+hackernews_sources:
+  ai_dev_stories:
+    name: "AI Development Stories"
+    platform: "hackernews"
+    query:
+      - "AI coding"
+      - "GitHub Copilot"
+      - "ChatGPT code"
+      - "automated programming"
+      - "code generation"
+      - "AI developer tools"
+      - "programming assistant"
+    active: true
+    priority: 6
+
+# 日本のテック系プラットフォーム
+qiita_sources:
+  ai_programming:
+    name: "Qiita AI Programming Articles"
+    platform: "qiita"
+    query:
+      - "ChatGPT"
+      - "GitHub Copilot"
+      - "AI プログラミング"
+      - "コード生成"
+      - "機械学習"
+      - "自然言語処理"
+    hashtags:
+      - "ChatGPT"
+      - "GitHubCopilot"
+      - "AI"
+      - "機械学習"
+      - "Python"
+      - "JavaScript"
+    active: true
+    priority: 8
+
+zenn_sources:
+  ai_development:
+    name: "Zenn AI Development Articles"
+    platform: "zenn"
+    query:
+      - "AI開発"
+      - "ChatGPT活用"
+      - "GitHub Copilot使用法"
+      - "コード生成AI"
+      - "プログラミング支援"
+    hashtags:
+      - "ai"
+      - "chatgpt" 
+      - "github"
+      - "programming"
+      - "development"
+    active: true
+    priority: 8
+
+# GitHub 関連
+github_sources:
+  trending_repos:
+    name: "Trending AI Repositories"
+    platform: "github"
+    query:
+      - "topic:artificial-intelligence"
+      - "topic:machine-learning"
+      - "topic:code-generation"
+      - "topic:ai-assistant"
+      - "language:Python"
+      - "language:JavaScript"
+      - "language:TypeScript"
+    active: true
+    priority: 5
+
+# 監視対象のAIツール一覧
+target_ai_tools:
+  code_completion:
+    - "GitHub Copilot"
+    - "Tabnine"
+    - "CodeWhisperer"
+    - "Kite"
+    - "IntelliCode"
+  
+  code_generation:
+    - "ChatGPT"
+    - "Claude"
+    - "CodeT5"
+    - "Codex"
+    - "GitHub Copilot X"
+  
+  code_review:
+    - "DeepCode"
+    - "SonarQube with AI"
+    - "CodeClimate AI"
+    - "Snyk Code"
+  
+  chat_assistant:
+    - "ChatGPT"
+    - "Claude"
+    - "Bard"
+    - "Bing Chat"
+    - "Phind"
+  
+  ides_editors:
+    - "Cursor"
+    - "Replit Ghostwriter" 
+    - "CodeSandbox AI"
+    - "GitPod AI"
+    - "VS Code with AI extensions"
+
+  testing:
+    - "Test.ai"
+    - "Applitools"
+    - "Mabl"
+    - "Testim.io"
+
+# 分析設定
+analysis_config:
+  # データ収集頻度（分）
+  collection_interval: 30
+  
+  # 分析実行頻度（時間）
+  analysis_interval: 6
+  
+  # レポート生成頻度
+  report_schedule:
+    daily: "09:00"
+    weekly: "Monday 10:00"
+    monthly: "1st 11:00"
+  
+  # 最小エンゲージメント数
+  min_engagement:
+    twitter: 5
+    reddit: 10
+    hackernews: 5
+    qiita: 3
+    zenn: 3
+    github: 1
+  
+  # 言語フィルター
+  languages:
+    primary: "ja"
+    secondary: "en"
+    detect_mixed: true
+  
+  # センチメント分析設定
+  sentiment_analysis:
+    enabled: true
+    confidence_threshold: 0.7
+    engines:
+      - "openai"
+      - "mock"
+  
+  # トレンド分析設定
+  trend_analysis:
+    enabled: true
+    lookback_days: 7
+    comparison_periods: 4
+    trend_threshold: 0.15
+  
+  # アラート設定
+  alerts:
+    # 急激なトレンド変化
+    trend_spike:
+      enabled: true
+      threshold: 0.5
+      notify_channels: ["email", "slack"]
+    
+    # ネガティブセンチメントの急増
+    negative_spike:
+      enabled: true
+      threshold: 0.3
+      min_mentions: 20
+      notify_channels: ["email"]
+    
+    # 新しいツールの検出
+    new_tool_detection:
+      enabled: true
+      confidence_threshold: 0.8
+      notify_channels: ["slack"]
+
+# API設定テンプレート
+api_configs:
+  twitter:
+    rate_limit: 300  # requests per 15 min
+    request_interval: 3000  # ms
+    timeout: 30000  # ms
+    use_mock: true
+    
+  reddit:
+    rate_limit: 60   # requests per minute  
+    request_interval: 1000  # ms
+    timeout: 10000  # ms
+    use_mock: true
+    
+  hackernews:
+    rate_limit: 1000  # requests per hour
+    request_interval: 4000  # ms
+    timeout: 15000  # ms
+    use_mock: true
+    
+  qiita:
+    rate_limit: 1000  # requests per hour
+    request_interval: 4000  # ms
+    timeout: 10000  # ms
+    use_mock: true
+    
+  zenn:
+    rate_limit: 1000  # requests per hour
+    request_interval: 4000  # ms  
+    timeout: 10000  # ms
+    use_mock: true
+    
+  github:
+    rate_limit: 5000  # requests per hour
+    request_interval: 1000  # ms
+    timeout: 15000  # ms
+    use_mock: true

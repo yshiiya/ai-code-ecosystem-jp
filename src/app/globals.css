@@ -3,27 +3,27 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-  }
+	:root {
+		--background: 0 0% 100%;
+		--foreground: 222.2 84% 4.9%;
+	}
 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-  }
+	.dark {
+		--background: 222.2 84% 4.9%;
+		--foreground: 210 40% 98%;
+	}
 }
 
 @layer components {
-  .prose pre {
-    @apply bg-gray-900 text-gray-100 overflow-x-auto;
-  }
-  
-  .prose code {
-    @apply bg-gray-100 text-gray-900 px-1 py-0.5 rounded;
-  }
-  
-  .prose pre code {
-    @apply bg-transparent p-0;
-  }
+	.prose pre {
+		@apply bg-gray-900 text-gray-100 overflow-x-auto;
+	}
+
+	.prose code {
+		@apply bg-gray-100 text-gray-900 px-1 py-0.5 rounded;
+	}
+
+	.prose pre code {
+		@apply bg-transparent p-0;
+	}
 }
