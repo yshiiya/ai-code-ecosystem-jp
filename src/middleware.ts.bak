@@ -145,7 +145,7 @@ function addSecurityHeaders(response: NextResponse): void {
 	response.headers.set("Content-Security-Policy", cspPolicy);
 }
 
+// 空のmatcherを設定して、ミドルウェアを無効化
 export const config = {
-	// /admin パスのみ保護対象とする
-	matcher: "/admin/:path*",
+	matcher: [],
 };
