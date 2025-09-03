@@ -8,6 +8,7 @@ const Header = () => {
 
 	const navItems = [
 		{ href: "/tools", label: "AIツール" },
+		{ href: "/cases", label: "使用事例" },
 		{ href: "/mcp", label: "MCP" },
 		{ href: "/cli", label: "CLI" },
 		{ href: "/guides", label: "ガイド" },
