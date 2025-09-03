@@ -10,6 +10,14 @@ export const tools = [
 		tags: ["CLI", "エージェント", "MCP対応"],
 	},
 	{
+		id: "openai-codex",
+		name: "OpenAI Codex",
+		category: "API/基盤モデル",
+		description: "GitHub Copilotの基盤技術。自然言語をコードに変換するAIシステム",
+		pricing: "API利用（終了）",
+		tags: ["API", "基盤モデル", "レガシー"],
+	},
+	{
 		id: "github-copilot",
 		name: "GitHub Copilot",
 		category: "IDE拡張",
