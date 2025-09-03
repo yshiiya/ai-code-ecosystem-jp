@@ -12,6 +12,9 @@ const Header = () => {
 		{ href: "/mcp", label: "MCP" },
 		{ href: "/cli", label: "CLI" },
 		{ href: "/guides", label: "ガイド" },
+		{ href: "/resources", label: "情報源" },
+		{ href: "/news", label: "最新ニュース" },
+		{ href: "/discoveries", label: "新発見" },
 		{ href: "/compare", label: "比較" },
 		{ href: "/about", label: "About" },
 	];

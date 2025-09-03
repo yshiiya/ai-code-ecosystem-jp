@@ -1,0 +1,151 @@
+name: AI情報収集と更新
+
+on:
+  schedule:
+    # 日本時間で6時間ごとに実行 (0時、6時、12時、18時)
+    - cron: '0 15,21,3,9 * * *'  # UTCで設定（日本時間-9時間）
+  workflow_dispatch:  # 手動実行も可能
+
+env:
+  NODE_VERSION: '20'
+
+jobs:
+  collect-and-update:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # リポジトリをチェックアウト
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Node.jsのセットアップ
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      # 依存関係のインストール
+      - name: Install dependencies
+        run: npm ci
+
+      # 環境変数の設定
+      - name: Set up environment
+        run: |
+          echo "COLLECTION_RUN_ID=${{ github.run_id }}" >> $GITHUB_ENV
+          echo "COLLECTION_TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> $GITHUB_ENV
+
+      # AI情報サイトからデータ収集
+      - name: Collect AI news and tools
+        id: collect
+        run: |
+          # 収集スクリプトの実行
+          node scripts/collect-ai-info.js
+        continue-on-error: true
+
+      # 収集結果の処理と翻訳
+      - name: Process and translate content
+        if: steps.collect.outcome == 'success'
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          # 翻訳と要約処理
+          node scripts/translate-and-summarize.js
+
+      # 収集データの保存
+      - name: Save collected data
+        if: steps.collect.outcome == 'success'
+        run: |
+          # データファイルの更新
+          node scripts/save-collected-data.js
+
+      # 変更のコミットとプッシュ
+      - name: Commit and push changes
+        if: steps.collect.outcome == 'success'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          # 変更がある場合のみコミット
+          if [ -n "$(git status --porcelain)" ]; then
+            git add -A
+            git commit -m "🤖 自動更新: AI情報収集 $(date +%Y-%m-%d_%H:%M)"
+            git push
+          else
+            echo "No changes to commit"
+          fi
+
+      # Vercelへの自動デプロイトリガー（Webhookを使用）
+      - name: Trigger Vercel deployment
+        if: steps.collect.outcome == 'success'
+        run: |
+          if [ -n "${{ secrets.VERCEL_DEPLOY_HOOK }}" ]; then
+            curl -X POST ${{ secrets.VERCEL_DEPLOY_HOOK }}
+          fi
+
+      # Slackへの通知（オプション）
+      - name: Notify Slack
+        if: always()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          if [ -n "$SLACK_WEBHOOK_URL" ]; then
+            STATUS="${{ steps.collect.outcome }}"
+            COLOR="good"
+            if [ "$STATUS" != "success" ]; then COLOR="danger"; fi
+            
+            curl -X POST -H 'Content-type: application/json' \
+              --data "{
+                \"attachments\": [{
+                  \"color\": \"$COLOR\",
+                  \"title\": \"AI情報収集結果\",
+                  \"text\": \"ステータス: $STATUS\",
+                  \"footer\": \"Run ID: ${{ github.run_id }}\",
+                  \"ts\": $(date +%s)
+                }]
+              }" \
+              $SLACK_WEBHOOK_URL
+          fi
+
+      # エラー時の詳細ログ
+      - name: Upload error logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: error-logs
+          path: |
+            logs/
+            *.log
+
+  # 週次レポート生成（毎週月曜日）
+  weekly-report:
+    runs-on: ubuntu-latest
+    if: github.event.schedule == '0 0 * * 1'  # 月曜日のみ
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate weekly report
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          node scripts/generate-weekly-report.js
+
+      - name: Commit report
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add -A
+          git commit -m "📊 週次レポート: $(date +%Y-%m-%d)"
+          git push
