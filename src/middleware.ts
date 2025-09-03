@@ -7,16 +7,18 @@ import type { SecurityContext } from "@/types";
  * セキュリティ脆弱性を修正し、適切なエラーハンドリングを実装
  */
 export function middleware(request: NextRequest) {
+	// /admin/* パスのみ処理
+	if (!request.nextUrl.pathname.startsWith("/admin")) {
+		return NextResponse.next();
+	}
+
 	try {
-		// /admin/* パスを保護
-		if (request.nextUrl.pathname.startsWith("/admin")) {
-			const result = validateAdminAccess(request);
-			if (!result.success) {
-				return result.response;
-			}
+		const result = validateAdminAccess(request);
+		if (!result.success) {
+			return result.response;
 		}
 
-		// セキュリティヘッダーを追加
+		// 管理者パスのみセキュリティヘッダーを追加
 		const response = NextResponse.next();
 		addSecurityHeaders(response);
 		return response;
@@ -144,5 +146,6 @@ function addSecurityHeaders(response: NextResponse): void {
 }
 
 export const config = {
+	// /admin パスのみ保護対象とする
 	matcher: "/admin/:path*",
 };
