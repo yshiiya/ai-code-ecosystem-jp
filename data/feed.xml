@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>AI Code Ecosystem JP - 最新情報</title>
+    <description>日本のAI・コード関連の最新情報をお届け</description>
+    <link>https://ai-code-ecosystem-jp.vercel.app</link>
+    <language>ja</language>
+    <lastBuildDate>Thu, 04 Sep 2025 01:55:17 GMT</lastBuildDate>
+    
+    <item>
+      <title><![CDATA[Learn Prompting: Your Guide to Communicating with AI]]></title>
+      <link>https://learnprompting.org/</link>
+      <description><![CDATA[Webページから収集した情報]]></description>
+      <pubDate>Thu, 04 Sep 2025 01:03:48 GMT</pubDate>
+      <guid>https://learnprompting.org/</guid>
+      
+    </item>
+
+    <item>
+      <title><![CDATA[Prompt Engineering Guide | Prompt Engineering Guide<!-- --> ]]></title>
+      <link>https://www.promptingguide.ai/</link>
+      <description><![CDATA[Webページから収集した情報]]></description>
+      <pubDate>Thu, 04 Sep 2025 01:03:47 GMT</pubDate>
+      <guid>https://www.promptingguide.ai/</guid>
+      
+    </item>
+
+    <item>
+      <title><![CDATA[Tabnine AI Code Assistant | private, personalized, protected]]></title>
+      <link>https://www.tabnine.com/</link>
+      <description><![CDATA[Webページから収集した情報]]></description>
+      <pubDate>Thu, 04 Sep 2025 01:03:47 GMT</pubDate>
+      <guid>https://www.tabnine.com/</guid>
+      
+    </item>
+
+    <item>
+      <title><![CDATA[Claude Code: Deep coding at terminal velocity \ Anthropic]]></title>
+      <link>https://www.anthropic.com/claude-code</link>
+      <description><![CDATA[Webページから収集した情報]]></description>
+      <pubDate>Thu, 04 Sep 2025 01:03:45 GMT</pubDate>
+      <guid>https://www.anthropic.com/claude-code</guid>
+      
+    </item>
+
+    <item>
+      <title><![CDATA[The Ultimate Claude AI Resources Directory - Awesome Claude]]></title>
+      <link>https://awesomeclaude.ai/</link>
+      <description><![CDATA[Webページから収集した情報]]></description>
+      <pubDate>Thu, 04 Sep 2025 01:03:45 GMT</pubDate>
+      <guid>https://awesomeclaude.ai/</guid>
+      
+    </item>
+
+    <item>
+      <title><![CDATA[AI Coding Tools Document Hub | AI Coding Tools Docs]]></title>
+      <link>https://aicodingtools.blog/en</link>
+      <description><![CDATA[Webページから収集した情報]]></description>
+      <pubDate>Thu, 04 Sep 2025 01:03:45 GMT</pubDate>
+      <guid>https://aicodingtools.blog/en</guid>
+      
+    </item>
+
+    <item>
+      <title><![CDATA[8 best AI coding tools for developers: tested &amp; compared! – n8n Blog]]></title>
+      <link>https://blog.n8n.io/best-ai-for-coding/</link>
+      <description><![CDATA[Webページから収集した情報]]></description>
+      <pubDate>Thu, 04 Sep 2025 01:03:41 GMT</pubDate>
+      <guid>https://blog.n8n.io/best-ai-for-coding/</guid>
+      
+    </item>
+
+    <item>
+      <title><![CDATA[20 Best AI Code Assistants Reviewed and Tested [August 2025]]]></title>
+      <link>https://www.qodo.ai/blog/best-ai-coding-assistant-tools/</link>
+      <description><![CDATA[Webページから収集した情報]]></description>
+      <pubDate>Thu, 04 Sep 2025 01:03:40 GMT</pubDate>
+      <guid>https://www.qodo.ai/blog/best-ai-coding-assistant-tools/</guid>
+      
+    </item>
+  </channel>
+</rss>

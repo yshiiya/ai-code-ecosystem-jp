@@ -49,9 +49,9 @@ jobs:
       - name: Process and translate content
         if: steps.collect.outcome == 'success'
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
-          # 翻訳と要約処理
+          # 翻訳と要約処理（Claude API使用）
           node scripts/translate-and-summarize.js
 
       # 収集データの保存
