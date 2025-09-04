@@ -1,10 +1,52 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Sparkles, TrendingUp, Users, Star, ExternalLink, Calendar, Globe, Award, Zap, Search, Filter, AlertCircle } from 'lucide-react';
 
-// サンプル発見ツールデータ（将来的にAPIから取得）
-const discoveredTools = [
+// ツールアイテムの型定義
+interface DiscoveryTool {
+  id: number;
+  name: string;
+  category: string;
+  description: string;
+  features: string[];
+  website: string;
+  githubStars: number;
+  weeklyGrowth: string;
+  firstSeenDate: string;
+  trendingScore: number;
+  pricing: string;
+  status: 'hot' | 'rising' | 'stable';
+  japanMentions: number;
+  globalMentions: number;
+  sourcesSeen: string[];
+}
+
+// APIから発見ツールデータを取得する関数
+async function fetchDiscoveryData(category?: string | null, sortBy?: string): Promise<DiscoveryTool[]> {
+  try {
+    const params = new URLSearchParams();
+    if (category) params.append('category', category);
+    if (sortBy) params.append('sortBy', sortBy);
+    params.append('limit', '30');
+    
+    const response = await fetch(`/api/discoveries?${params}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch discoveries');
+    }
+    
+    const data = await response.json();
+    return data.tools || [];
+  } catch (error) {
+    console.error('Error fetching discoveries:', error);
+    // エラー時はサンプルデータを返す
+    return getSampleTools();
+  }
+}
+
+// フォールバック用のサンプルツールデータ
+function getSampleTools(): DiscoveryTool[] {
+  return [
   {
     id: 1,
     name: 'Zed AI',
@@ -107,7 +149,8 @@ const discoveredTools = [
     globalMentions: 67,
     sourcesSeen: ['AI Tool Hub', 'Reddit r/AICoding', 'Twitter/X']
   }
-];
+  ];
+}
 
 // ステータス定義
 const statusConfig = {
@@ -120,12 +163,27 @@ export default function DiscoveriesPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<'trending' | 'growth' | 'stars'>('trending');
   const [showOnlyNew, setShowOnlyNew] = useState(false);
+  const [tools, setTools] = useState<DiscoveryTool[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState<string[]>([]);
 
-  // カテゴリー取得
-  const categories = Array.from(new Set(discoveredTools.map(tool => tool.category)));
+  // データ取得
+  useEffect(() => {
+    const loadTools = async () => {
+      setLoading(true);
+      const data = await fetchDiscoveryData(selectedCategory, sortBy);
+      setTools(data);
+      // カテゴリーリストを動的に生成
+      const uniqueCategories = Array.from(new Set(data.map(tool => tool.category)));
+      setCategories(uniqueCategories);
+      setLoading(false);
+    };
+    
+    loadTools();
+  }, [selectedCategory, sortBy]);
 
   // フィルタリング
-  let filteredTools = [...discoveredTools];
+  let filteredTools = [...tools];
   if (selectedCategory) {
     filteredTools = filteredTools.filter(tool => tool.category === selectedCategory);
   }
@@ -138,19 +196,7 @@ export default function DiscoveriesPage() {
     });
   }
 
-  // ソート
-  filteredTools.sort((a, b) => {
-    switch (sortBy) {
-      case 'trending':
-        return b.trendingScore - a.trendingScore;
-      case 'growth':
-        return parseFloat(b.weeklyGrowth) - parseFloat(a.weeklyGrowth);
-      case 'stars':
-        return b.githubStars - a.githubStars;
-      default:
-        return 0;
-    }
-  });
+  // ソートはAPIで処理されるため、クライアント側でのソートは不要
 
   return (
     <div className="space-y-8">
@@ -170,24 +216,24 @@ export default function DiscoveriesPage() {
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-6 mb-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="text-center">
-            <div className="text-3xl font-bold text-purple-600">{discoveredTools.length}</div>
+            <div className="text-3xl font-bold text-purple-600">{tools.length}</div>
             <div className="text-sm text-gray-600">今週の発見</div>
           </div>
           <div className="text-center">
             <div className="text-3xl font-bold text-pink-600">
-              {discoveredTools.filter(t => t.status === 'hot').length}
+              {tools.filter(t => t.status === 'hot').length}
             </div>
             <div className="text-sm text-gray-600">急上昇中</div>
           </div>
           <div className="text-center">
             <div className="text-3xl font-bold text-orange-600">
-              {Math.round(discoveredTools.reduce((acc, t) => acc + parseFloat(t.weeklyGrowth), 0) / discoveredTools.length)}%
+              {tools.length > 0 ? Math.round(tools.reduce((acc, t) => acc + parseFloat(t.weeklyGrowth), 0) / tools.length) : 0}%
             </div>
             <div className="text-sm text-gray-600">平均成長率</div>
           </div>
           <div className="text-center">
             <div className="text-3xl font-bold text-blue-600">
-              {discoveredTools.filter(t => t.japanMentions === 0).length}
+              {tools.filter(t => t.japanMentions === 0).length}
             </div>
             <div className="text-sm text-gray-600">日本初紹介</div>
           </div>
@@ -276,8 +322,24 @@ export default function DiscoveriesPage() {
         </div>
       </div>
 
+      {/* ローディング表示 */}
+      {loading && (
+        <div className="flex justify-center items-center py-12">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+          <span className="ml-3 text-gray-600">発見ツールを読み込み中...</span>
+        </div>
+      )}
+
       {/* ツールカード */}
+      {!loading && (
       <div className="grid gap-6 md:grid-cols-2">
+        {filteredTools.length === 0 ? (
+          <div className="col-span-2 text-center py-12">
+            <Sparkles className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+            <p className="text-gray-600">該当するツールが見つかりませんでした。</p>
+            <p className="text-sm text-gray-500 mt-2">フィルターを調整するか、後でもう一度お試しください。</p>
+          </div>
+        ) : (
         {filteredTools.map((tool) => {
           const status = statusConfig[tool.status as keyof typeof statusConfig];
           const japanAdoptionRate = Math.round((tool.japanMentions / tool.globalMentions) * 100);
@@ -409,8 +471,10 @@ export default function DiscoveriesPage() {
               </div>
             </div>
           );
-        })}
+        })
+        )}
       </div>
+      )}
 
       {/* CTA */}
       <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl p-8 text-center">

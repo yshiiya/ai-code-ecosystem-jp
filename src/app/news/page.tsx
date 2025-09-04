@@ -1,10 +1,68 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Calendar, Globe, TrendingUp, ExternalLink, Clock, Tag, AlertCircle, Sparkles, RefreshCw } from 'lucide-react';
 
-// サンプルニュースデータ（将来的にAPIから取得）
-const sampleNews = [
+// ニュースアイテムの型定義
+interface NewsItem {
+  id?: number;
+  title: string;
+  originalTitle?: string;
+  source: string;
+  sourceUrl?: string;
+  url?: string;
+  publishedDate?: string;
+  translatedAt?: string;
+  summary: string;
+  originalSummary?: string;
+  tags: string[];
+  importance: string;
+  isNew: boolean;
+  category: string;
+  formattedDate?: string;
+}
+
+// APIからニュースデータを取得する関数
+async function fetchNewsData(category?: string | null): Promise<NewsItem[]> {
+  try {
+    const params = new URLSearchParams();
+    if (category) params.append('category', category);
+    params.append('limit', '50');
+    
+    const response = await fetch(`/api/news?${params}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch news');
+    }
+    
+    const data = await response.json();
+    
+    // APIレスポンスからニュースアイテムに変換
+    return (data.items || []).map((item: any, index: number) => ({
+      id: item.id || index + 1,
+      title: item.title || item.originalTitle || 'No Title',
+      originalTitle: item.originalTitle || item.title,
+      source: item.source || item.sourceId || 'Unknown Source',
+      sourceUrl: item.sourceUrl || '#',
+      url: item.url || '#',
+      publishedDate: item.publishedDate || item.translatedAt,
+      summary: item.summary || item.originalSummary || '詳細情報なし',
+      originalSummary: item.originalSummary,
+      tags: item.tags || [],
+      importance: item.importance || 'medium',
+      isNew: item.isNew || false,
+      category: item.category || 'general',
+      formattedDate: item.formattedDate
+    }));
+  } catch (error) {
+    console.error('Error fetching news:', error);
+    // エラー時はサンプルデータを返す
+    return getSampleNews();
+  }
+}
+
+// フォールバック用のサンプルニュースデータ
+function getSampleNews(): NewsItem[] {
+  return [
   {
     id: 1,
     title: 'OpenAI、新しいコーディングアシスタント「GPT-Code」を発表',
@@ -83,7 +141,8 @@ const sampleNews = [
     isNew: false,
     category: 'localization'
   }
-];
+  ];
+}
 
 // カテゴリー定義
 const newsCategories = {
@@ -92,18 +151,32 @@ const newsCategories = {
   'model-update': { name: 'モデル更新', color: 'bg-green-100 text-green-700', icon: '🤖' },
   'company-news': { name: '企業ニュース', color: 'bg-orange-100 text-orange-700', icon: '🏢' },
   'research': { name: '研究・論文', color: 'bg-pink-100 text-pink-700', icon: '📚' },
-  'localization': { name: '日本展開', color: 'bg-red-100 text-red-700', icon: '🇯🇵' }
+  'localization': { name: '日本展開', color: 'bg-red-100 text-red-700', icon: '🇯🇵' },
+  'general': { name: '一般', color: 'bg-gray-100 text-gray-700', icon: '📰' }
 };
 
 export default function NewsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [showOnlyNew, setShowOnlyNew] = useState(false);
+  const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [lastUpdated, setLastUpdated] = useState<string>('');
+
+  // データ取得
+  useEffect(() => {
+    const loadNews = async () => {
+      setLoading(true);
+      const data = await fetchNewsData(selectedCategory);
+      setNewsItems(data);
+      setLastUpdated(new Date().toLocaleTimeString('ja-JP'));
+      setLoading(false);
+    };
+    
+    loadNews();
+  }, [selectedCategory]);
 
   // フィルタリング
-  let filteredNews = [...sampleNews];
-  if (selectedCategory) {
-    filteredNews = filteredNews.filter(news => news.category === selectedCategory);
-  }
+  let filteredNews = [...newsItems];
   if (showOnlyNew) {
     filteredNews = filteredNews.filter(news => news.isNew);
   }
@@ -152,7 +225,7 @@ export default function NewsPage() {
             <div className="flex gap-4 text-xs text-gray-500">
               <span className="flex items-center gap-1">
                 <Clock className="w-3 h-3" />
-                最終更新: 30分前
+                最終更新: {lastUpdated || '取得中...'}
               </span>
               <span className="flex items-center gap-1">
                 <Globe className="w-3 h-3" />
@@ -160,7 +233,7 @@ export default function NewsPage() {
               </span>
               <span className="flex items-center gap-1">
                 <TrendingUp className="w-3 h-3" />
-                本日の新着: 6件
+                本日の新着: {filteredNews.filter(n => n.isNew).length}件
               </span>
             </div>
           </div>
@@ -220,10 +293,26 @@ export default function NewsPage() {
         </div>
       </div>
 
+      {/* ローディング表示 */}
+      {loading && (
+        <div className="flex justify-center items-center py-12">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+          <span className="ml-3 text-gray-600">ニュースを読み込み中...</span>
+        </div>
+      )}
+
       {/* ニュースリスト */}
+      {!loading && (
       <div className="space-y-4">
-        {filteredNews.map((news) => {
-          const category = newsCategories[news.category as keyof typeof newsCategories];
+        {filteredNews.length === 0 ? (
+          <div className="text-center py-12">
+            <AlertCircle className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+            <p className="text-gray-600">該当するニュースが見つかりませんでした。</p>
+            <p className="text-sm text-gray-500 mt-2">カテゴリーを変更するか、後でもう一度お試しください。</p>
+          </div>
+        ) : (
+          filteredNews.map((news) => {
+          const category = newsCategories[news.category as keyof typeof newsCategories] || newsCategories.general;
           return (
             <div
               key={news.id}
@@ -256,7 +345,7 @@ export default function NewsPage() {
                     </span>
                     <span className="text-gray-500 flex items-center gap-1">
                       <Calendar className="w-4 h-4" />
-                      {formatDate(news.publishedAt)}
+                      {news.formattedDate || formatDate(news.publishedDate || news.translatedAt || '')}
                     </span>
                   </div>
                 </div>
@@ -278,7 +367,7 @@ export default function NewsPage() {
                   </div>
                   
                   <a
-                    href={news.sourceUrl}
+                    href={news.url || news.sourceUrl || '#'}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-sm text-blue-600 hover:text-blue-700 flex items-center gap-1"
@@ -291,8 +380,10 @@ export default function NewsPage() {
               </div>
             </div>
           );
-        })}
+        })
+        )}
       </div>
+      )}
 
       {/* もっと見る */}
       <div className="text-center py-8">
