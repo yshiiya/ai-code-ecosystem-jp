@@ -323,14 +323,21 @@ export default function NewsPage() {
                 <div className="flex flex-col md:flex-row md:items-start justify-between mb-3">
                   <div className="flex-1">
                     {/* タイトル */}
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">
-                      {news.isNew && (
-                        <span className="inline-block bg-red-500 text-white text-xs px-2 py-1 rounded mr-2">
-                          NEW
-                        </span>
-                      )}
-                      {news.title}
-                    </h3>
+                    <a 
+                      href={news.url || news.sourceUrl || '#'}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group"
+                    >
+                      <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                        {news.isNew && (
+                          <span className="inline-block bg-red-500 text-white text-xs px-2 py-1 rounded mr-2">
+                            NEW
+                          </span>
+                        )}
+                        {news.title}
+                      </h3>
+                    </a>
                     
                     {/* 原題 */}
                     <p className="text-sm text-gray-500 mb-3 italic">
@@ -353,8 +360,21 @@ export default function NewsPage() {
                 {/* 要約 */}
                 <p className="text-gray-700 mb-4">{news.summary}</p>
 
+                {/* 詳細を読むボタン */}
+                <div className="mb-4">
+                  <a
+                    href={news.url || news.sourceUrl || '#'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition"
+                  >
+                    詳細を読む
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                </div>
+
                 {/* タグとソース */}
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-4 border-t">
                   <div className="flex flex-wrap gap-2">
                     {news.tags.map((tag) => (
                       <span
@@ -366,16 +386,11 @@ export default function NewsPage() {
                     ))}
                   </div>
                   
-                  <a
-                    href={news.url || news.sourceUrl || '#'}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-blue-600 hover:text-blue-700 flex items-center gap-1"
-                  >
+                  <div className="flex items-center gap-2 text-sm text-gray-500">
                     <Globe className="w-4 h-4" />
-                    {news.source}
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
+                    <span>情報源:</span>
+                    <span className="font-medium text-gray-700">{news.source}</span>
+                  </div>
                 </div>
               </div>
             </div>
