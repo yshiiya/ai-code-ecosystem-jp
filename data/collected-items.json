@@ -1,6 +1,14 @@
 {
   "items": [
     {
+      "title": "Latest AI Coding Tools Update",
+      "url": "https://example.com/ai-tools-update",
+      "publishedDate": "2025-09-04T04:40:14.419Z",
+      "source": "AI News",
+      "sourceId": "ai-news",
+      "summary": "最新のAIコーディングツール情報"
+    },
+    {
       "title": "20 Best AI Code Assistants Reviewed and Tested [August 2025]",
       "url": "https://www.qodo.ai/blog/best-ai-coding-assistant-tools/",
       "publishedDate": "2025-09-04T01:03:40.555Z",
@@ -65,10 +73,10 @@
       "summary": "Webページから収集した情報"
     }
   ],
-  "lastUpdated": "2025-09-04T01:45:02.498Z",
+  "lastUpdated": "2025-09-04T04:40:14.419Z",
   "stats": {
-    "totalItems": 8,
-    "newItemsToday": 0,
+    "totalItems": 9,
+    "newItemsToday": 1,
     "sources": 11
   }
 }

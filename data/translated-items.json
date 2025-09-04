@@ -1,6 +1,18 @@
 {
   "items": [
     {
+      "title": "AI コーディングツールの最新アップデート情報",
+      "url": "https://example.com/ai-tools-update",
+      "publishedDate": "2025-09-04T04:40:14.419Z",
+      "source": "AI News",
+      "sourceId": "ai-news",
+      "summary": "申し訳ありませんが、要約すべき元のテキストが提供されていないようです。AIコーディングツールについての具体的なテキストをご提供いただければ、以下の点に注意して要約させていただきます：\n\n- 重要なポイントを3-5文で抽出\n- 技術的な正確性を維持\n- わかりやすい日本語での説明\n\n具体的な記事やテキストをご共有ください。",
+      "originalTitle": "Latest AI Coding Tools Update",
+      "originalSummary": "最新のAIコーディングツール情報",
+      "translatedAt": "2025-09-04T04:40:18.479Z",
+      "translationModel": "claude-3.5-sonnet"
+    },
+    {
       "title": "AI コーディング支援ツール トップ20選 - レビューと実地テスト結果 [2025年8月版]\n\n※「AI Code Assistant」は「AI コーディング支援ツール」「AI コーディングアシスタント」などと訳されますが、ここでは一般読者向けに分かりやすい表現を選択しました。",
       "url": "https://www.qodo.ai/blog/best-ai-coding-assistant-tools/",
       "publishedDate": "2025-09-04T01:03:40.555Z",
@@ -177,10 +189,10 @@
       "translatedAt": "2025-09-04T01:04:13.743Z"
     }
   ],
-  "lastUpdated": "2025-09-04T01:27:26.882Z",
+  "lastUpdated": "2025-09-04T04:40:18.479Z",
   "stats": {
-    "totalItems": 16,
-    "newTranslations": 8,
+    "totalItems": 17,
+    "newTranslations": 1,
     "failedTranslations": 0
   }
 }
