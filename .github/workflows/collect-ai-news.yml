@@ -12,6 +12,9 @@ env:
 jobs:
   collect-and-update:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # リポジトリへの書き込み権限
+      pull-requests: write  # PRの作成権限（必要に応じて）
     
     steps:
       # リポジトリをチェックアウト
@@ -123,6 +126,8 @@ jobs:
   weekly-report:
     runs-on: ubuntu-latest
     if: github.event.schedule == '0 0 * * 1'  # 月曜日のみ
+    permissions:
+      contents: write  # リポジトリへの書き込み権限
     
     steps:
       - name: Checkout repository
