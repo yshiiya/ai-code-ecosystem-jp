@@ -10,7 +10,7 @@ const path = require('path');
 
 // 収集対象サイトの設定を読み込み
 // GitHub Actions環境では直接APIを呼び出さずローカル処理
-const COLLECTION_API_URL = process.env.GITHUB_ACTIONS
+const COLLECTION_API_URL = process.env.GITHUB_ACTIONS === 'true'
   ? null  // GitHub Actions環境では直接処理
   : process.env.VERCEL_URL 
     ? `https://${process.env.VERCEL_URL}/api/resources/collect`
@@ -46,7 +46,7 @@ async function collectAIInfo() {
     let data;
     
     // GitHub Actions環境では直接データを作成
-    if (process.env.GITHUB_ACTIONS) {
+    if (process.env.GITHUB_ACTIONS === 'true') {
       log('GitHub Actions環境で実行中 - ダミーデータを生成');
       data = {
         stats: {
