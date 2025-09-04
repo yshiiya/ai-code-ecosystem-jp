@@ -353,9 +353,16 @@ export default function DiscoveriesPage() {
                 {/* ヘッダー */}
                 <div className="flex justify-between items-start mb-4">
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-1">
-                      {tool.name}
-                    </h3>
+                    <a
+                      href={tool.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group"
+                    >
+                      <h3 className="text-xl font-bold text-gray-900 mb-1 group-hover:text-purple-600 transition-colors">
+                        {tool.name}
+                      </h3>
+                    </a>
                     <span className="text-sm text-gray-500">{tool.category}</span>
                   </div>
                   <span className={`px-3 py-1 rounded-lg border text-sm font-medium ${status.color}`}>
@@ -434,6 +441,19 @@ export default function DiscoveriesPage() {
                   </div>
                 </div>
 
+                {/* ツールを試すボタン */}
+                <div className="mb-4">
+                  <a
+                    href={tool.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-purple-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-purple-700 transition"
+                  >
+                    ツールを試す
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                </div>
+
                 {/* フッター */}
                 <div className="flex items-center justify-between pt-4 border-t">
                   <div className="flex items-center gap-3 text-sm">
@@ -444,16 +464,14 @@ export default function DiscoveriesPage() {
                     <span className="font-medium text-gray-700">{tool.pricing}</span>
                   </div>
                   
-                  <a
-                    href={tool.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 hover:text-blue-700 flex items-center gap-1"
-                  >
-                    <Globe className="w-4 h-4" />
-                    <span className="text-sm">サイト</span>
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
+                  <div className="text-sm text-gray-500">
+                    {tool.githubStars > 0 && (
+                      <span className="flex items-center gap-1">
+                        <Star className="w-4 h-4 text-yellow-500" />
+                        {tool.githubStars.toLocaleString()}
+                      </span>
+                    )}
+                  </div>
                 </div>
 
                 {/* トレンドスコア */}

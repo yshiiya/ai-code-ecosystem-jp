@@ -225,8 +225,21 @@ export default function ResourcesPage() {
                 </div>
               </div>
 
+              {/* サイトを訪問ボタン */}
+              <div className="mt-4 mb-4">
+                <a
+                  href={site.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition"
+                >
+                  サイトを訪問
+                  <ExternalLink className="w-4 h-4" />
+                </a>
+              </div>
+
               {/* 更新情報 */}
-              <div className="mt-4 pt-4 border-t border-gray-100">
+              <div className="pt-4 border-t border-gray-100">
                 <div className="flex items-center gap-2 text-sm text-gray-500">
                   <RefreshCw className="w-4 h-4" />
                   <span>{site.updateFrequency}</span>
